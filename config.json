@@ -25,6 +25,35 @@
         "word_trainer_kwargs": {
             "min_frequency": 1,
             "show_progress": true
+        },
+
+        "word_correction": {
+            "ko": "không",
+            "đc": "được",
+            "dc": "được",
+            "tgdd": "thegioididong",
+            "vs": "với",
+            "sp": "sản phẩm",
+            "fb": "facebook",
+            "dt": "điện thoại",
+            "tgdđ": "thegioididong",
+            "nv": "nhân viên",
+            "ss": "samsung",
+            "ip": "iphone",
+            "oke": "ok",
+            "mk": "mình",
+            "sd": "sử dụng",
+            "ae": "anh em",
+            "lq": "liên quân",
+            "lqmb": "liên quân mobile",
+            "lun": "luôn",
+            "ng": "người",
+            "ad": "admin",
+            "ms": "mới",
+            "cx": "cũng",
+            "nhìu": "nhiều",
+            "bth": "bình thường",
+            "bthg": "bình thường"
         }
     }
 }

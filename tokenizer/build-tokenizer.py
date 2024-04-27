@@ -24,6 +24,7 @@ class TokenizerConfig(TypedDict):
     bpe_trainer_kwargs: dict[str, Any]
     wordpiece_trainer_kwargs: dict[str, Any]
     word_trainer_kwargs: dict[str, Any]
+    word_correction: dict[str, str]
 
 
 def extract_modules(config: TokenizerConfig) -> tuple[models.Model, pre_tokenizers.PreTokenizer, decoders.Decoder, trainers.Trainer, dict[str, int]]:
@@ -75,6 +76,9 @@ if __name__ == "__main__":
         normalizers.Strip(),
         normalizers.Replace(r"\s{2,}", " "),
         normalizers.Lowercase()
+    ] + [
+        normalizers.Replace(tokenizers.Regex(r"\b("+word+r")\b"), correction)
+        for word, correction in config["word_correction"].items()
     ])
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
         pre_tokenizers.Split(tokenizers.Regex("["
