@@ -55,14 +55,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("data_files", default=[], type=lambda s: [s])
     parser.add_argument("-o", "--out_dir", default="./tokenizer")
+    parser.add_argument("-conf", "--config_file", default="../config.json")
     args = vars(parser.parse_args())
 
     data_files = args["data_files"]
     out_dir = args["out_dir"]
-
+    config_path = args["config_file"]
 
     
-    with open("./config.json", "r") as conf_file:
+    with open(config_path, "r") as conf_file:
         config = TokenizerConfig(**json.load(conf_file)["tokenizer"])
 
     model, pre_tokenizer, decoder, trainer, special_tokens = extract_modules(config)

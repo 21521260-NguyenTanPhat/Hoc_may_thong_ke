@@ -28,7 +28,6 @@ if __name__ == "__main__":
         colour="green"
     )
     feedbacks = [" ".join(vncorenlp.word_segment(c)) for c in comments]
-    print(feedbacks[23])
 
     with open(os.path.join(out_dir, "feedbacks.txt"), 'w') as f:
         for feedback in feedbacks:

@@ -1,6 +1,6 @@
 {
     "tokenizer": {
-        "algo": "word",
+        "algo": "bpe",
 
         "unknown_token": "<unk>",
         "pad_token": "<pad>",
