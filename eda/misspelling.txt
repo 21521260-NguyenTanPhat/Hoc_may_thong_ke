@@ -141,7 +141,6 @@ xoq
 lun
 hd
 sụng
-chip
 gb
 thế này
 selfie
@@ -175,7 +174,6 @@ lite
 độ phân giải
 full hd
 notch
-chip
 kirin
 mah
 mp
@@ -256,7 +254,6 @@ vismart
 ko
 
 vs
-chip
 exynos
 mah
 apple
@@ -349,7 +346,6 @@ vs
 ák
 tgdd
 ui
-chip
 ko
 gía
 ko
@@ -444,12 +440,7 @@ hiễn
 trc
 
 
-chip
-chip
-chip
-chip
-chip
-chip
+
 
 đc
 tg
@@ -596,7 +587,6 @@ dc
 helio
 hd
 gb
-chip
 exynos
 đc
 sp
@@ -948,7 +938,6 @@ ko
 thuiii
 mifan
 kh
-chip
 mk
 ms
 đc
@@ -1065,14 +1054,12 @@ camamera
 ns
 
 play
-chip
 mtk
 đc
 ching
 ko
 đưicj
 ko
-chip
 ae
 fan
 bb
@@ -1113,9 +1100,7 @@ tgdd
 
 
 
-chip
 gh
-chip
 sd
 oke
 nv
@@ -1238,7 +1223,6 @@ dc
 
 ko
 bit
-chip
 nhìu
 ko
 thik
@@ -1258,7 +1242,6 @@ ko
 gg
 vs
 gg
-chip
 lởm
 vs
 vismat
@@ -1603,7 +1586,7 @@ wá
 phẩm bình thường
 not
 đc
-chip
+
 live
 iu
 iu
@@ -1621,7 +1604,6 @@ bit
 naygmf
 nhug
 tảu
-chip
 snap
 độ phân giải
 ss
@@ -1636,7 +1618,6 @@ ko
 fb
 trg
 mobiistar
-chip
 mt
 
 dc
@@ -1727,7 +1708,7 @@ rớt giá
 
 
 
-chip
+
 trầy xước
 
 sd
@@ -1878,7 +1859,6 @@ ko
 ko
 gi
 ko
-chip
 ko
 drive
 maps
@@ -1948,7 +1928,6 @@ face
 time
 cữa
 hd
-chip
 oke
 ad
 camera ok
@@ -1978,7 +1957,6 @@ rata
 đep
 thương hiệu
 sp
-chip
 đc
 đc
 ko
@@ -2044,7 +2022,6 @@ ae
 ⬆
 dc
 nx
-chip
 ko
 
 
@@ -2244,7 +2221,6 @@ vs
 vs
 mah
 ko
-chip
 snapdragon
 wep
 vs
@@ -2469,7 +2445,6 @@ ko
 ip
 ko
 vs
-chip
 bonic
 antutu
 promax
@@ -2697,7 +2672,7 @@ rubg
 face
 id
 
-chip
+
 bth
 ko
 bat
@@ -2745,7 +2720,7 @@ tgdđ
 lúc nào
 rùi
 haha
-chip
+
 thegioididong
 vc
 nhưg
@@ -2781,7 +2756,6 @@ khach
 that
 đc
 đc
-chip
 tgdd
 nguyễn văn cừ ninh
 kiều cần thơ
@@ -2851,7 +2825,6 @@ bn
 tgdd
 
 mp
-chip
 dc
 oke
 đc
@@ -2964,7 +2937,6 @@ kich
 hoat
 lung ta lung tung
 dc
-chip
 lipo
 ko
 đc
@@ -2975,7 +2947,6 @@ hêt́
 apple
 thương hiệu
 
-chip
 ko
 ji
 
@@ -3055,7 +3026,6 @@ sd
 sd
 đc
 vs
-chip
 vs
 ip
 vs
@@ -3185,7 +3155,7 @@ tgdd
 vingroup
 bn
 
-chip
+
 ko
 ips
 bắt wifi
@@ -3196,7 +3166,6 @@ ib
 fm
 fm
 mic
-chip
 snap
 lite
 lagg
@@ -3207,7 +3176,6 @@ phàn
 
 dc
 amoled
-chip
 maxsetting
 call
 of
@@ -3359,7 +3327,6 @@ androi
 androi
 samsunga
 mqys
-chip
 exynos
 làm đẹp
 làm đẹp
@@ -3537,7 +3504,6 @@ ko
 fan
 ss
 lúc nào
-chip
 snap
 bought
 this
@@ -3616,14 +3582,13 @@ lq
 pinh
 đk
 
-chip
 ko
 wa
 tgdd
 đc
 ko
 
-chip
+
 ko
 đc
 ko
@@ -3805,12 +3770,10 @@ ko
 
 sp
 ipx
-chip
 exynos
 apple
 flagship
 exynos
-chip
 snapdragon
 vn
 exy
@@ -3917,7 +3880,7 @@ joy
 ko
 tes
 oke
-chip
+
 
 mp
 zoom
@@ -3931,14 +3894,12 @@ diss
 ko
 dc
 ko
-chip
 ko
 fbs
 ko
 ko
 ko
 ko
-chip
 hd
 ko
 
@@ -4096,7 +4057,6 @@ mk
 ko
 đc
 mk
-chip
 tft
 
 
@@ -4138,7 +4098,6 @@ nguyễn trãi thanh xuân
 gb
 bộ nhớ trong
 gb
-chip
 
 
 phạm thị thanh hải
@@ -4147,7 +4106,6 @@ gmail
 
 
 vc
-chip
 tgdd
 cực kỳ
 tệ•
@@ -4173,7 +4131,6 @@ okk
 
 
 đc
-chip
 sml
 trc
 lqmb
@@ -4307,7 +4264,7 @@ ko
 
 
 
-chip
+
 
 mp
 đc
@@ -4367,7 +4324,6 @@ lộ ngang
 ko
 đc
 ko
-chip
 gameming
 đc
 
@@ -4848,15 +4804,12 @@ kỉu
 sd
 chịp
 snap
-chip
 auto
 phầm
 bla
 bla
 tgdđ
-chip
 snap
-chip
 helio
 đc
 gĩu
@@ -4900,7 +4853,6 @@ samsum
 
 
 ng
-chip
 khôg
 nhưg
 bằg
@@ -5033,8 +4985,7 @@ ko
 qá
 camara
 qá
-chip
-chip
+
 đc
 fb
 ko
@@ -5044,7 +4995,7 @@ ko
 gb
 ko
 xr
-chip
+
 sd
 it
 sd
@@ -5177,7 +5128,7 @@ ko
 ko
 copy
 đc
-chip
+
 home
 apple
 ip
@@ -5216,7 +5167,6 @@ wa
 mặc định
 yutub
 online
-chip
 snap
 trc
 đở
@@ -5249,9 +5199,7 @@ ko
 mk
 mk
 
-chip
 snapdragon
-chip
 snap
 dc
 vs
@@ -5314,7 +5262,6 @@ nàu
 face
 dc
 đc
-chip
 vs
 vs
 nhở
@@ -5420,7 +5367,6 @@ videol
 cực kỳ
 ❤
 khủng
-chip
 bionic
 polyme
 okie
@@ -5492,7 +5438,6 @@ ko
 ko
 đc
 đc
-chip
 ko
 
 
@@ -5618,7 +5563,6 @@ reset
 goi gọn
 mat
 lien
-chip
 gb
 chipset
 qsd
@@ -5784,7 +5728,7 @@ ko
 ko
 ko
 
-chip
+
 
 
 load
@@ -5945,7 +5889,6 @@ ko
 mng
 
 trầy xước
-chip
 face
 unlock
 
@@ -6069,7 +6012,6 @@ nguyễn thái học
 hdh
 đc
 hd
-chip
 snapdragon
 snapdragon
 nge
@@ -6171,7 +6113,6 @@ ip
 đc
 tgdd
 bh
-chip
 not
 sx
 fix
@@ -6264,13 +6205,10 @@ ss
 hd
 chug
 okk
-chip
 mediatek
 snap
 tgddd
 apple
-chip
-chip
 snap
 dk
 dk
@@ -6439,7 +6377,7 @@ khôg
 nhưg
 dc
 chon
-chip
+
 
 
 
@@ -6519,7 +6457,6 @@ ko
 bun
 mk
 đc
-chip
 mk
 đc
 
@@ -6681,7 +6618,7 @@ trang web
 wi
 fi
 đc
-chip
+
 trc
 call
 lg
@@ -6712,8 +6649,6 @@ wiffi
 
 đc
 ng
-chip
-chip
 hd
 
 naitrim
@@ -6778,7 +6713,6 @@ xsm
 bữa nay
 haha
 sp
-chip
 snap
 nhieuf
 sp
@@ -6799,7 +6733,6 @@ xog
 haiz
 trầy xước
 
-chip
 tgdd
 tgdd
 cở
@@ -6855,7 +6788,6 @@ cực kỳ
 đmx
 đmx
 hà trung
-chip
 ko
 thế này
 full hd
@@ -6931,7 +6863,6 @@ dt
 lun
 ôk
 bữa nay
-chip
 trình duyệt
 sp
 dc
@@ -7003,7 +6934,6 @@ ko
 thanks
 ko
 widget
-chip
 load
 update
 
@@ -7014,7 +6944,6 @@ ko
 dt
 tv
 tắtt
-chip
 vs
 sach
 ctkm
@@ -7166,7 +7095,6 @@ airpod
 
 
 redme
-chip
 oke
 mùnh
 oke
@@ -7176,10 +7104,8 @@ oke
 mic
 
 đc
-chip
-chip
 great
-chip
+
 mk
 mk
 ms
@@ -7265,7 +7191,6 @@ vs
 lite
 lite
 lite
-chip
 lite
 lite
 freefire
@@ -7525,7 +7450,6 @@ ip
 ko
 đc
 
-chip
 ko
 dựt
 đc
@@ -7675,7 +7599,6 @@ mah
 
 
 hd
-chip
 admin
 bữa nay
 mìh
@@ -7688,7 +7611,6 @@ oke
 đập hộp
 tgdd
 
-chip
 mik
 thế này
 ko
@@ -7738,7 +7660,6 @@ phien
 cph
 đươc
 đc
-chip
 hd
 đc
 ko
@@ -7751,7 +7672,6 @@ thanks
 
 
 thiêt
-chip
 androi
 dc
 phone
@@ -7781,7 +7701,6 @@ fan
 dc
 vmast
 nhìu
-chip
 soc
 nm
 nm
@@ -7949,7 +7868,6 @@ tab
 chat
 mess
 messenger
-chip
 exynos
 dc
 ko
@@ -7973,7 +7891,6 @@ cyng
 ko
 pj
 teung
-chip
 qualcom
 
 hwa
@@ -8084,11 +8001,9 @@ email
 ko
 đc
 chs
-chip
 ms
 đc
 chs
-chip
 cx
 tiền nhân viên
 mỏ cày
@@ -8206,7 +8121,6 @@ anti
 fan
 super amoled
 online
-chip
 đc
 trc
 vs
@@ -8360,7 +8274,6 @@ frifree
 chỉnh sửa
 dmx
 đaos
-chip
 bth
 bh
 ko
@@ -8448,7 +8361,7 @@ sx
 
 dc
 dc
-chip
+
 pinn
 gb
 sp
@@ -8479,7 +8392,7 @@ vn
 đc
 lq
 tiền nào của nấy
-chip
+
 tgdd
 thế này
 vs
@@ -8577,7 +8490,6 @@ bee
 
 
 good
-chip
 exynos
 tgdd
 luot
@@ -8617,14 +8529,11 @@ youtobe
 nhunge
 dc
 đc
-chip
 hd
 bn
 hs
 sv
-chip
 ko
-chip
 tgian
 redmi note
 lite
@@ -8709,7 +8618,6 @@ vãu
 thế này
 ko
 vs
-chip
 
 đep
 ko
@@ -8790,7 +8698,7 @@ oke
 
 call
 ko
-chip
+
 
 
 mess
@@ -9285,7 +9193,6 @@ gi
 ms
 cx
 ko
-chip
 snap
 flagship
 lite
@@ -9326,7 +9233,7 @@ live
 fb
 ui
 đc
-chip
+
 updata
  
 ncl
@@ -9396,10 +9303,8 @@ ko
 ko
 ko
 not
-chip
 ko
 snapdragon
-chip
 lun
 tgdd
 ko
@@ -9566,7 +9471,6 @@ id
 ko
 ui
 ko
-chip
 ko
 load
 ap
@@ -9640,7 +9544,6 @@ hdr
 
 dc
 pupg
-chip
 snapdron
 thât
 dc
@@ -9958,7 +9861,6 @@ cáv
 vs
 sp
 quảng
-chip
 order
 online
 tgdd
@@ -10033,7 +9935,7 @@ dc
 ko
 ko
 
-chip
+
 tay không
 sp
 clip
@@ -10041,7 +9943,7 @@ dell
 ip
 ành
 
-chip
+
 call
 tât
 snap
@@ -10347,7 +10249,7 @@ hd
 chip snapdragon
 wf
 nv
-chip
+
 ss a
 đag
 mog
@@ -10463,7 +10365,6 @@ ngoc
 xiu
 
 tgdd
-chip
 blackberry
 
 
@@ -10700,7 +10601,7 @@ nắc
 độ phân giải
 đc
 ms
-chip
+
 tgdd
 
 
@@ -10785,7 +10686,7 @@ ko
 live
 vn
 drop
-chip
+
 ko
 qtv
 mih
@@ -10815,7 +10716,6 @@ sóc ven
 gò quao
 lpus
 ng
-chip
 setting
 như thế nào
 oke
@@ -10895,7 +10795,6 @@ hìmh
 ỗn
 ae
  
-chip
 update
 
 
@@ -10978,7 +10877,6 @@ tgdd
 best
 
 
-chip
 snapdragon
 vmast
 cùu
@@ -11177,10 +11075,8 @@ sp
 dc
 nhìu
 hịn
-chip
 cmt
 ng
-chip
 nhan
 
 
@@ -11339,7 +11235,6 @@ ocê
 
 ko
 mõi
-chip
 upgrade
 đẹppppppppppppp
 tgdd
@@ -11367,7 +11262,6 @@ nhâp
 dc
 đc
 choi
-chip
 mng
 
 dt
@@ -11393,7 +11287,6 @@ ko
 fb
 ko
 môt
-chip
 dộ
 độ phân giải
 hd
@@ -11443,7 +11336,7 @@ học lãm
 
 ko
 ko
-chip
+
 call
 
 
@@ -11544,7 +11437,7 @@ vs
 vs
 vs
 
-chip
+
 haiz
 lqm
 đc
@@ -11673,7 +11566,6 @@ sd
 
 
 lm
-chip
 mediatek
 ko
 
@@ -11726,11 +11618,8 @@ tgdd
 dmx
 auto
 
-chip
 snap
-chip
 lq
-chip
 
 
 flash
@@ -11801,10 +11690,8 @@ ko
 đc
 muot
 choi
-chip
 hello
 ko
-chip
 wi
 fi
 lướt facebook
@@ -11981,7 +11868,6 @@ ko
 
 nge
 thương hiệu
-chip
 ko
 dc
 dc
@@ -12207,7 +12093,6 @@ mibistar
 ipx
 
 thương hiệu
-chip
 fb
 lq
 free
@@ -12261,7 +12146,6 @@ dt
 mún
 dt
 dc
-chip
 spam
 it
 
@@ -12455,7 +12339,7 @@ ko
 mb
 đk
 đk
-chip
+
 
 ko
 chs
@@ -12463,13 +12347,11 @@ ko
 review
 chs
 đồng tiền bát gạo
-chip
 ❤
 ️
 
 free fire maxsetting
 ko
-chip
 ko
 đc
 maxsetting
@@ -12844,7 +12726,6 @@ hqa
 gold
 smartphone
 xs
-chip
 mk
 vs
 vs
@@ -12868,7 +12749,7 @@ conc
 
 dk
 
-chip
+
 
 phan
 oh
@@ -13102,7 +12983,6 @@ bãn
 ỗn
 haizzzzzzz
 dc
-chip
 
 
 
@@ -13201,9 +13081,7 @@ ip
 dc
 face
 dc
-chip
 đc
-chip
 
 cực kỳ
 dc
@@ -13339,8 +13217,6 @@ choi
 rat
 
 khủng
-chip
-chip
 fhd
 ❤
 ❤
@@ -13602,12 +13478,9 @@ active
 wa
 
 
-chip
 sapd
-chip
 exy
 not
-chip
 
 
 
@@ -13749,7 +13622,6 @@ oke
 hiẹu
 dc
 chiến game
-chip
 nv
 tgdđ
 dc
@@ -14060,7 +13932,6 @@ apple
 ko
 admin
 ko
-chip
 snap
 hd
 ko
@@ -14125,7 +13996,6 @@ sendo
 soppe
 lazada
 vv
-chip
 sd
 tgdd
 
@@ -14135,7 +14005,6 @@ vs
 trc
 mjh
 sd
-chip
 xò
 chổ
 premision
@@ -14254,7 +14123,6 @@ nhà sản xuất
 bjo
 khong
 cammera
-chip
 dc
 
 đc
@@ -14368,7 +14236,6 @@ ff
 bữa nay
 free
 fire
-chip
 snap
 ss
 xầm
@@ -14548,7 +14415,6 @@ nhà sản xuất
  
 ko
 snapdragon
-chip
 
 hd
 ko
@@ -14650,8 +14516,6 @@ of
 duty
 tầm trung
 
-chip
-chip
 tgdd
 admin
 tgdd
@@ -14666,7 +14530,6 @@ good
 pn
 gb
 online
-chip
 add
 ko
 
@@ -14863,7 +14726,6 @@ ko
 ko
 sp
 đc
-chip
 sp
 ng
 
@@ -14889,7 +14751,6 @@ tof
 dmx
 tôt
 huwei
-chip
 vinaphone
 tot
 chup
@@ -14997,7 +14858,6 @@ vs
 sp
 đk
 nguyễn trãi
-chip
 khủng
 nguyễn trãi
 chumg
@@ -15062,7 +14922,6 @@ gb
 khả dụng
 gb
 ko
-chip
 snap
 ko
 ios
@@ -15226,7 +15085,6 @@ mobile
 đc
 tgdd
 tft
-chip
 snapdragon
 gb
 ko
@@ -15244,7 +15102,7 @@ hảng
 thế này
 nình
 tay không
-chip
+
 play
 trêm
 chrome
@@ -15292,7 +15150,6 @@ good
 
 rùi
 vsamart
-chip
 mediatek
 
 vs
@@ -15391,7 +15248,6 @@ lite
 fb
 ko
 ko
-chip
 snapdragon
 zola
 búc
@@ -15541,7 +15397,7 @@ oki
 điểm mình
 
 
-chip
+
 ko
 bx
 bx
@@ -15568,7 +15424,6 @@ qa
 ko
 đc
 ip
-chip
 bt
 ko
 hd
@@ -15577,7 +15432,6 @@ ko
 hd
 ko
 ko
-chip
 ko
 vs
 gủng
@@ -15646,9 +15500,7 @@ lunn
 tgdd
 quá mắc
 oppo find
-chip
 snap
-chip
 ko
 free
 fire
@@ -15666,7 +15518,6 @@ smartphone
 smartphone
 
 ko
-chip
 snapdragon
 
 messenger
@@ -15692,7 +15543,6 @@ ip
 đc
 ko
 ko
-chip
 pixel
 ms
 
@@ -15878,7 +15728,6 @@ ko
 choi
 
 selfie
-chip
 tgdđ
 ss
 mik
@@ -16054,7 +15903,6 @@ trức
 
 hềnh
 apple
-chip
 snap
 
 ko
@@ -16076,7 +15924,6 @@ tgdd
 ko
 nv
 dc
-chip
 ko
 email
 ko
@@ -16111,7 +15958,6 @@ sp
 seal
 
 oki
-chip
 free
 fire
 haiz
@@ -16164,7 +16010,6 @@ crash
 oke
 khônh
 ko
-chip
 helio
 ko
 ko
@@ -16229,7 +16074,7 @@ mh
 ko
 ghz
 ad
-chip
+
 cùg
 hf
 đồng tiền bát gạo
@@ -16285,7 +16130,6 @@ ko
 đc
 ko
 gb
-chip
 lq
 vs
 free
@@ -16363,7 +16207,6 @@ dmx
 live
 live
 đc
-chip
 tq
 out
 râng
@@ -16381,7 +16224,6 @@ bt
 nv
 th
 ms
-chip
 reset
 hjnhf
 
@@ -16529,7 +16371,7 @@ ko
 襤
 hk
 ntn
-chip
+
 
 
 
@@ -16822,7 +16664,6 @@ chug
 
 
 oke
-chip
 time
 ko
 dc
@@ -17065,7 +16906,6 @@ mp
 đk
 
 tgdt
-chip
 dc
 ph
 ✋
@@ -17110,14 +16950,12 @@ ko
 ip
 
 blutook
-chip
 mediatek
 china
 fan
 huwei
 prime
 vs
-chip
 hẵn
 free fire
 file
@@ -17190,7 +17028,6 @@ sac
 dc
 xẽ
 pupg
-chip
 lq
 hd
 vos
@@ -17352,7 +17189,6 @@ ip
 sd
 tgdđ
 ip
-chip
 hõi
 hd
 樂
@@ -17529,7 +17365,6 @@ dc
 máy samsung
 dc
 ko
-chip
 gb
 face
 
@@ -17587,12 +17422,10 @@ fom
 trầy xước
 sạc pin
 
-chip
 sd
 ko
 ko
 đc
-chip
 iqoo
 vượt trội
 lite
@@ -17628,7 +17461,6 @@ zs
 choi
 fb
 lun
-chip
 snapdragon
 gank
 
