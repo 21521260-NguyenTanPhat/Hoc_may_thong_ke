@@ -1,0 +1,30 @@
+{
+    "tokenizer": {
+        "algo": "word",
+
+        "unknown_token": "<unk>",
+        "pad_token": "<pad>",
+        "bos_token": "<bos>",
+        "eos_token": "<eos>",
+
+        "padding": null, 
+        "byte_level": false,
+
+        "bpe_trainer_kwargs": {
+            "vocab_size": 5000,
+            "min_frequency": 1,
+            "show_progress": true,
+            "continuing_subword_prefix": "##"
+        },
+        "wordpiece_trainer_kwargs": {
+            "vocab_size": 8000,
+            "min_frequency": 0,
+            "show_progress": true,
+            "continuing_subword_prefix": "##"
+        },
+        "word_trainer_kwargs": {
+            "min_frequency": 1,
+            "show_progress": true
+        }
+    }
+}
