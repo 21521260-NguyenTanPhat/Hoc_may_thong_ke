@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-import torch.nn.functional as F
 
 from typing import get_args, Literal
 
@@ -12,7 +11,6 @@ class AspectClassifier(nn.Module):
         input_size: int,
         num_aspects: int = 10,
         include_others: bool = True,
-        threshold: float = 0.5,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
@@ -20,7 +18,6 @@ class AspectClassifier(nn.Module):
         self.input_size = input_size
         self.num_aspects = num_aspects
         self.include_others = include_others
-        self.threshold = threshold
 
         self.fc = nn.Linear(
             in_features=input_size,
@@ -30,10 +27,6 @@ class AspectClassifier(nn.Module):
     def forward(self, input: torch.Tensor):
         x = self.fc(input)
         return x
-
-    def predict(self, input: torch.Tensor):
-        x = self(input).sigmoid()
-        return (x >= self.threshold).to(dtype=torch.int8)
 
 
 class PolarityClassifier(nn.Module):
@@ -74,7 +67,6 @@ class MTL_ViSFDClassifier(nn.Module):
         num_aspects: int = 10,
         num_polarities: int = 3,
         include_OTHERS: bool = True,
-        aspect_threshold: float = 0.5,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
@@ -83,7 +75,6 @@ class MTL_ViSFDClassifier(nn.Module):
             input_size=input_size,
             num_aspects=num_aspects,
             include_others=include_OTHERS,
-            threshold=aspect_threshold
         )
         self.polarity_clf = PolarityClassifier(
             input_size=input_size,
@@ -135,7 +126,6 @@ class ViSFD_LSTM(nn.Module):
         num_aspects: int = 10,
         num_polarities: int = 3,
         include_OTHERS: bool = True,
-        aspect_threshold: float = 0.5,
         task_type: Literal["stl", "mtl"] = "stl",
         embed_dim: int = 768,
         dropout: float = 0.2,
@@ -183,7 +173,6 @@ class ViSFD_LSTM(nn.Module):
                 num_aspects=num_aspects,
                 num_polarities=num_polarities,
                 include_OTHERS=include_OTHERS,
-                aspect_threshold=aspect_threshold
             )
     
     def forward(self, input: torch.Tensor):
@@ -199,7 +188,7 @@ class ViSFD_LSTM(nn.Module):
         return x
     
 
-class PositionalEncoder(torch.nn.Module):
+class PositionalEncoder(nn.Module):
     def __init__(
         self, 
         embed_dim: int, 
@@ -251,10 +240,8 @@ class ViSFD_Attention(nn.Module):
         num_aspects: int = 10,
         num_polarities: int = 3,
         include_OTHERS: bool = True,
-        aspect_threshold: float = 0.5,
         task_type: Literal["stl", "mtl"] = "stl",
         embed_size: int = 768,
-        
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
