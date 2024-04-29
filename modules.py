@@ -10,18 +10,16 @@ class AspectClassifier(nn.Module):
         self, 
         input_size: int,
         num_aspects: int = 10,
-        include_others: bool = True,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
 
         self.input_size = input_size
         self.num_aspects = num_aspects
-        self.include_others = include_others
 
         self.fc = nn.Linear(
             in_features=input_size,
-            out_features=num_aspects+include_others
+            out_features=num_aspects+1
         )
     
     def forward(self, input: torch.Tensor):
@@ -66,7 +64,6 @@ class MTL_ViSFDClassifier(nn.Module):
         input_size: int,
         num_aspects: int = 10,
         num_polarities: int = 3,
-        include_OTHERS: bool = True,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
@@ -74,7 +71,6 @@ class MTL_ViSFDClassifier(nn.Module):
         self.aspect_clf = AspectClassifier(
             input_size=input_size,
             num_aspects=num_aspects,
-            include_others=include_OTHERS,
         )
         self.polarity_clf = PolarityClassifier(
             input_size=input_size,
@@ -94,17 +90,15 @@ class STL_ViSFDClassifier(nn.Module):
         input_size: int,
         num_aspects: int = 10,
         num_polarities: int = 3,
-        include_OTHERS: bool = True,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
-        self.include_OTHERS = include_OTHERS
 
         self.clf_list = nn.ModuleList([
             nn.Linear(input_size, num_polarities+1)
             for i in torch.arange(num_aspects)
         ])
-        self.OTHERS_clf = nn.Linear(input_size, 1) if include_OTHERS else None
+        self.OTHERS_clf = nn.Linear(input_size, 1)
     
     def forward(self, input: torch.Tensor):
         result = torch.stack([
@@ -112,9 +106,6 @@ class STL_ViSFDClassifier(nn.Module):
             for clf in self.clf_list
         ], dim=-2)
 
-        if not self.include_OTHERS:
-            return result
-        
         result_OTHERS = self.OTHERS_clf(input).sigmoid()
         return result, result_OTHERS
 
@@ -125,7 +116,6 @@ class ViSFD_LSTM(nn.Module):
         vocab_size: int,
         num_aspects: int = 10,
         num_polarities: int = 3,
-        include_OTHERS: bool = True,
         task_type: Literal["stl", "mtl"] = "stl",
         embed_dim: int = 768,
         dropout: float = 0.2,
@@ -165,14 +155,12 @@ class ViSFD_LSTM(nn.Module):
                 input_size=cnn_out_channels*pooling_out_size*2,
                 num_aspects=num_aspects,
                 num_polarities=num_polarities,
-                include_OTHERS=include_OTHERS
             )
         elif task_type == "mtl":
             self.output_layer = MTL_ViSFDClassifier(
                 input_size=cnn_out_channels*pooling_out_size*2,
                 num_aspects=num_aspects,
                 num_polarities=num_polarities,
-                include_OTHERS=include_OTHERS,
             )
     
     def forward(self, input: torch.Tensor):
@@ -239,7 +227,6 @@ class ViSFD_Attention(nn.Module):
         vocab_size: int,
         num_aspects: int = 10,
         num_polarities: int = 3,
-        include_OTHERS: bool = True,
         task_type: Literal["stl", "mtl"] = "stl",
         embed_size: int = 768,
         *args, **kwargs
