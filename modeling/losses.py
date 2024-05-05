@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Literal
 
 class STL_ViSFDLoss(nn.Module):
     def __init__(
@@ -22,11 +22,14 @@ class STL_ViSFDLoss(nn.Module):
         y_hat: Tuple[torch.Tensor, torch.Tensor], 
         y: Tuple[torch.Tensor, torch.Tensor]
     ):
-        a_hat, o_hat = y_hat
-        a, o = y
+        a_hat, o_hat = y_hat # NxAxP, Nx1
+        a, o = y # NxA, ...
 
-        a_loss = self.aspect_fn(a_hat, a)
-        OTHERS_loss = self.OTHERS_fn(o_hat, o)
+        if a.ndim == 1:
+            a = a.unsqueeze(0)
+
+        a_loss = self.aspect_fn(a_hat.transpose(-1, -2), a)
+        OTHERS_loss = self.OTHERS_fn(o_hat, o.reshape_as(o_hat))
         loss = self.w_a * a_loss +  self.w_OTHERS * OTHERS_loss
         return loss
 
@@ -51,52 +54,47 @@ class MTL_ViSFDLoss(nn.Module):
         OTHERS_idx = 10 if self.OTHERS_idx is None \
                     else self.OTHERS_idx
 
-        if a.ndim == 1:
-            a = torch.cat([
-                a[0 : OTHERS_idx],
-                a[OTHERS_idx+1 : 11]
-            ])
-        elif a.ndim == 2:
-            a = torch.cat([
-                a[:, 0 : self.OTHERS_idx],
-                a[:, OTHERS_idx+1 : 11]
-            ])
+        a = torch.cat([
+            a[..., 0 : OTHERS_idx],
+            a[..., OTHERS_idx+1 : 11]
+        ], dim=-1)
         return a
-    
-    def normalize_size(
-        self,
-        y_hat: Tuple[torch.Tensor, torch.Tensor],
-        y: Tuple[torch.Tensor, torch.Tensor]
-    ):
-        a_hat, p_hat = y_hat # (NxA, NxAxP) or (A, AxP)
-        a, p = y # (NxA, NxA) or (A, A)
-
-        if p_hat.ndim == 3:
-            p_hat = p_hat.transpose(-1, -2) # NxPxA
-        elif p_hat.ndim == 2:
-            p_hat = p_hat.T.unsqueeze(0) # 1xPxA
-            p = p.unsqueeze(0) # 1xA
-        
-        y_hat = a_hat, p_hat # (NxA, NxPxA) or (A, 1xPxA)
-        y = a, p # (NxA, NxA) or (A, A)
-        return y_hat, y
 
     def forward(
         self,
         y_hat: Tuple[torch.Tensor, torch.Tensor],
         y: Tuple[torch.Tensor, torch.Tensor]
     ):
-        (a_hat, p_hat), (a, p) = self.normalize_size(y_hat, y)
-        # a_hat: Nx(A+1) or A+1
-        # p_hat: NxPxA or 1xPxA
-        # a: Nx(A+1) or A+1
-        # p: NxA or 1xA
+        a_hat, p_hat = y_hat # Nx(A+1), NxAxP
+        a, p = y # Nx(A+1), NxA
 
         a_loss = self.aspect_fn(a_hat, a)
-        a = self.remove_OTHERS(a) # NxA or A
+        a = self.remove_OTHERS(a) # NxA
         
-        p_loss = self.polarity_fn(p_hat, p) * a
+        p_loss = self.polarity_fn(p_hat.transpose(-1, -2), p) * a
         p_loss = p_loss.mean()
 
         loss = self.w_a * a_loss + self.w_p * p_loss
         return loss
+
+
+class ViSFDLoss(nn.Module):
+    def __init__(
+        self, 
+        task_type: Literal["stl", "mtl"] = "stl",
+        *args, **kwargs
+    ) -> None:
+        super().__init__(*args, **kwargs)
+        self.task_type = task_type
+
+        if task_type == "stl":
+            self.loss_fn = STL_ViSFDLoss(*args, **kwargs)
+        elif task_type == "mtl":
+            self.loss_fn = MTL_ViSFDLoss(*args, **kwargs)
+    
+    def forward(
+        self, 
+        y_hat: Tuple[torch.Tensor, torch.Tensor],
+        y: Tuple[torch.Tensor, torch.Tensor]
+    ):
+        return self.loss_fn(y_hat, y)

@@ -3,6 +3,7 @@ from torch.utils.data import Dataset
 from py_vncorenlp import VnCoreNLP
 
 from pandas import read_csv
+from langdetect import detect
 import re
 import os
 from tqdm import tqdm
@@ -40,6 +41,9 @@ class ViSFDDataset(Dataset):
 
         self.data["target"] = self.data.label.progress_map(self.label_to_tensor)
         self.data["segmented"] = self.data.comment.progress_map(self.segment)
+        self.data["lang"] = self.data.comment.progress_map(detect)
+
+        self.data = self.data[self.data.lang == "vi"]
     
     def segment(self, text: str):
         return " ".join(vncorenlp.word_segment(text))

@@ -1,7 +1,9 @@
 import torch
 from torch import nn
+import torch.nn.utils.rnn as rnn
+from tokenizers import Tokenizer
 
-from typing import get_args, Literal
+from typing import get_args, Literal, Sequence
 
 # =============== OUTPUT LAYERS ===============
 
@@ -88,6 +90,8 @@ class STL_ViSFDClassifier(nn.Module):
     def __init__(
         self, 
         input_size: int,
+        dropout: float = 0.3,
+        hidden_size: int = 64,
         num_aspects: int = 10,
         num_polarities: int = 3,
         *args, **kwargs
@@ -95,8 +99,13 @@ class STL_ViSFDClassifier(nn.Module):
         super().__init__(*args, **kwargs)
 
         self.clf_list = nn.ModuleList([
-            nn.Linear(input_size, num_polarities+1)
-            for i in torch.arange(num_aspects)
+            nn.Sequential(
+                nn.Dropout(dropout),
+                nn.Linear(input_size, hidden_size),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(hidden_size, num_polarities+1),
+            ) for i in torch.arange(num_aspects)
         ])
         self.OTHERS_clf = nn.Linear(input_size, 1)
     
@@ -106,14 +115,15 @@ class STL_ViSFDClassifier(nn.Module):
             for clf in self.clf_list
         ], dim=-2)
 
-        result_OTHERS = self.OTHERS_clf(input).sigmoid()
+        result_OTHERS = self.OTHERS_clf(input)
         return result, result_OTHERS
 
 
 class ViSFD_LSTM(nn.Module):
     def __init__(
         self, 
-        vocab_size: int,
+        # vocab_size: int,
+        tokenizer: Tokenizer,
         num_aspects: int = 10,
         num_polarities: int = 3,
         task_type: Literal["stl", "mtl"] = "stl",
@@ -122,21 +132,24 @@ class ViSFD_LSTM(nn.Module):
         lstm_hidden_size: int = 128,
         cnn_kernel_size: int = 3,
         cnn_out_channels: int = 16,
-        pooling_out_size: int = 16,
+        pooling_out_size: int = 8,
+        output_dropout: float = 0.3,
+        output_hidden_size: int = 64,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
+        self.tokenizer = tokenizer
 
         self.embedding = nn.Embedding(
-            num_embeddings=vocab_size,
+            num_embeddings=tokenizer.get_vocab_size(),
             embedding_dim=embed_dim,
             padding_idx=0,
         )
-        self.dropout = nn.Dropout1d(dropout)
         self.lstm = nn.LSTM(
             input_size=embed_dim,
             hidden_size=lstm_hidden_size,
             bidirectional=True,
+            dropout=dropout,
             batch_first=True
         )
         self.cnn = nn.Conv1d(
@@ -153,6 +166,8 @@ class ViSFD_LSTM(nn.Module):
         if task_type == "stl":
             self.output_layer = STL_ViSFDClassifier(
                 input_size=cnn_out_channels*pooling_out_size*2,
+                dropout=output_dropout,
+                hidden_size=output_hidden_size,
                 num_aspects=num_aspects,
                 num_polarities=num_polarities,
             )
@@ -163,10 +178,37 @@ class ViSFD_LSTM(nn.Module):
                 num_polarities=num_polarities,
             )
     
-    def forward(self, input: torch.Tensor):
-        x = self.embedding(input)
-        x = self.dropout(x.transpose(-1, -2)).transpose(-1, -2)
+    def embed_forward(self, input: str | Sequence[str]):
+        x = [
+            torch.tensor(encoding.ids)
+            for encoding in self.tokenizer.encode_batch(input)
+        ]
+        x = rnn.pack_sequence([
+            self.dropout(self.embedding(_x).transpose(-1, -2)).transpose(-1, -2)
+            for _x in x
+        ], enforce_sorted=False)
+        return x
+    
+    def forward(self, input: str | Sequence[str]):
+        if isinstance(input, str):
+            input = [input]
+
+        encodings = self.tokenizer.encode_batch(input)
+        x = [
+            torch.tensor(encoding.ids)
+            for encoding in encodings
+        ]
+        x = rnn.pad_sequence(x, batch_first=True)
+        x_lens = torch.tensor([
+            *map(len, encodings)
+        ], device="cpu")
+
+        x = self.embedding(x)
+
+        x = rnn.pack_padded_sequence(x, x_lens, batch_first=True, enforce_sorted=False)
         x, (h, c) = self.lstm(x)
+        x, lstm_out_sizes = rnn.pad_packed_sequence(x, batch_first=True)
+        
         x = self.cnn(x.transpose(-1, -2))
         x_avg = self.avg_pooling(x).flatten(start_dim=-2)
         x_max = self.max_pooling(x).flatten(start_dim=-2)

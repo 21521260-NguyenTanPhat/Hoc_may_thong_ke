@@ -1,6 +1,7 @@
 import pandas as pd
 from py_vncorenlp import VnCoreNLP
 
+from langdetect import detect
 import os
 import argparse
 from tqdm import tqdm
@@ -16,13 +17,14 @@ if __name__ == "__main__":
     out_dir = args["out_dir"]
 
     visfd = pd.read_csv(csv_path).set_index("index")
+    visfd["lang"] = visfd.comment.map(detect)
 
     working_dir = os.getcwd()
     vncorenlp = VnCoreNLP(save_dir=os.environ["VNCORENLP"])
     os.chdir(working_dir)
 
     comments = tqdm(
-        visfd.comment.values,
+        visfd.comment[visfd.lang == "vi"].values,
         desc="Progress",
         total=visfd.shape[0],
         colour="green"

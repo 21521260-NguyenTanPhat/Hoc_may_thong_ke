@@ -3,7 +3,7 @@ from torch import nn
 from torch.utils.data import Dataset, DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from typing import Callable, Any, Any
+from typing import Callable, Any, Tuple
 from tqdm import tqdm
 
 def bold(text: str):
@@ -28,7 +28,7 @@ def evaluate(
             desc=bold(metric_name + " Evaluation"),
             colour="blue"
         ):
-            x = x.to(device=device)
+            # x = x.to(device=device)
             y = (y[0].to(device=device), y[1].to(device=device))
 
             y_hat = model(x)
@@ -79,7 +79,7 @@ def train(
             colour="green"
         )
         for batch, (x, y) in it:
-            x = x.to(device=device)
+            # x = x.to(device=device)
             y = (y[0].to(device=device), y[1].to(device=device))
             optimizer.zero_grad()
 
@@ -105,3 +105,79 @@ def train(
                     metric, scalars,
                     global_step=epoch
                 )
+
+def stl_decode(
+    y_hat: Tuple[torch.Tensor, torch.Tensor],
+    OTHERS_threshold: float = 0.5,
+    ASPECT_LOOKUP: dict[str, int] | None = None,
+    POLARITY_LOOKUP: dict[str, int] | None = None
+):
+    if ASPECT_LOOKUP is None:
+        ASPECT_LOOKUP = {
+            a: i
+            for i, a in enumerate(["CAMERA", "FEATURES", "BATTERY", "PRICE", "GENERAL", "SER&ACC", "PERFORMANCE", "SCREEN", "DESIGN", "STORAGE"])
+        }
+    if POLARITY_LOOKUP is None:
+        POLARITY_LOOKUP = {
+            p: i
+            for i, p in enumerate(["Negative", "Neutral", "Positive"])
+        }
+
+    ASPECT_LOOKUP = {i: a for a, i in ASPECT_LOOKUP.items()}
+    POLARITY_LOOKUP = {i+1: p for p, i in POLARITY_LOOKUP.items()}
+
+    a, o = y_hat
+    a = a.argmax(dim=-1).cpu()
+    o = o.flatten().sigmoid().cpu()
+
+    result = []
+    for a_i, o_i in zip(a, o):
+        res_i = {}
+        if o_i >= OTHERS_threshold:
+            res_i["OTHERS"] = ""
+        
+        for i, _a in enumerate(a_i):
+            if _a > 0:
+                res_i[ASPECT_LOOKUP[i]] = POLARITY_LOOKUP[_a.item()]
+
+        result.append(res_i)
+    return result
+
+
+def mtl_decode(
+    y_hat: Tuple[torch.Tensor, torch.Tensor],
+    aspect_threshold: float = 0.5,
+    ASPECT_LOOKUP: dict[str, int] | None = None,
+    POLARITY_LOOKUP: dict[str, int] | None = None
+):
+    if ASPECT_LOOKUP is None:
+        ASPECT_LOOKUP = {
+            a: i
+            for i, a in enumerate(["CAMERA", "FEATURES", "BATTERY", "PRICE", "GENERAL", "SER&ACC", "PERFORMANCE", "SCREEN", "DESIGN", "STORAGE"])
+        }
+    if POLARITY_LOOKUP is None:
+        POLARITY_LOOKUP = {
+            p: i
+            for i, p in enumerate(["Negative", "Neutral", "Positive"])
+        }
+
+    ASPECT_LOOKUP = {i: a for a, i in ASPECT_LOOKUP.items()}
+    POLARITY_LOOKUP = {i: p for p, i in POLARITY_LOOKUP.items()}
+
+    a_hat, p_hat = y_hat
+    a_hat = a_hat.sigmoid().cpu()
+    p_hat = p_hat.argmax(dim=-1).cpu()
+
+    results = []
+    for a_i, p_i in zip(a_hat, p_hat):
+        res_i = {}
+        for i in range(10):
+            if a_i[i] >= aspect_threshold:
+                res_i[ASPECT_LOOKUP[i]] = POLARITY_LOOKUP[p_i[i].item()]
+        results.append(res_i)
+
+        # OTHERS
+        if a_i[-1] >= aspect_threshold:
+            res_i["OTHERS"] = ""
+    
+    return results
