@@ -44,6 +44,7 @@ class ViSFDDataset(Dataset):
         self.data["lang"] = self.data.comment.progress_map(detect)
 
         self.data = self.data[self.data.lang == "vi"]
+        self.label_frequencies = torch.stack(self.data.target.map(lambda t: t[0]).tolist()).sum(dim=0)
     
     def segment(self, text: str):
         return " ".join(vncorenlp.word_segment(text))

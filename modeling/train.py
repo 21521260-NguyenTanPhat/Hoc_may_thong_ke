@@ -1,5 +1,5 @@
 import torch
-from modules import ViSFD_LSTM
+from modules import ViSFD_LSTM_CNN
 from losses import MTL_ViSFDLoss, STL_ViSFDLoss
 from dataset import ViSFDDataset
 from tokenizers import Tokenizer
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     val_set = ViSFDDataset("data/Dev.csv")
 
     tokenizer: Tokenizer = Tokenizer.from_file("tokenizer/tokenizer.json")
-    model = ViSFD_LSTM(
+    model = ViSFD_LSTM_CNN(
         tokenizer
     )
 

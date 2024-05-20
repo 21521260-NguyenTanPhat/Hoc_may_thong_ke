@@ -150,6 +150,8 @@ def mtl_decode(
     ASPECT_LOOKUP: dict[str, int] | None = None,
     POLARITY_LOOKUP: dict[str, int] | None = None
 ):
+    if isinstance(aspect_threshold, float):
+        aspect_threshold = torch.full((10,), aspect_threshold)
     if ASPECT_LOOKUP is None:
         ASPECT_LOOKUP = {
             a: i
@@ -172,12 +174,17 @@ def mtl_decode(
     for a_i, p_i in zip(a_hat, p_hat):
         res_i = {}
         for i in range(10):
-            if a_i[i] >= aspect_threshold:
+            if a_i[i] >= aspect_threshold[i]:
                 res_i[ASPECT_LOOKUP[i]] = POLARITY_LOOKUP[p_i[i].item()]
         results.append(res_i)
 
         # OTHERS
-        if a_i[-1] >= aspect_threshold:
+        if a_i[-1] >= aspect_threshold[-1]:
             res_i["OTHERS"] = ""
     
     return results
+
+def mtl_v2_decode(
+    y_hat
+):
+    pass

@@ -11,6 +11,8 @@ class AspectClassifier(nn.Module):
     def __init__(
         self, 
         input_size: int,
+        dropout: float = 0.3,
+        hidden_size: int = 64,
         num_aspects: int = 10,
         *args, **kwargs
     ) -> None:
@@ -19,9 +21,18 @@ class AspectClassifier(nn.Module):
         self.input_size = input_size
         self.num_aspects = num_aspects
 
-        self.fc = nn.Linear(
-            in_features=input_size,
-            out_features=num_aspects+1
+        self.fc = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(
+                in_features=input_size,
+                out_features=hidden_size
+            ),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(
+                in_features=hidden_size,
+                out_features=num_aspects+1
+            )
         )
     
     def forward(self, input: torch.Tensor):
@@ -33,16 +44,28 @@ class PolarityClassifier(nn.Module):
     def __init__(
         self, 
         input_size: int,
+        dropout: float = 0.5,
+        hidden_size: int = 64,
         num_aspects: int = 10,
         num_polarities: int = 3,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
         self.polarity_fcs = nn.ModuleList([
-            nn.Linear(
-                in_features=input_size,
-                out_features=num_polarities
-            ) for _ in torch.arange(num_aspects)
+            nn.Sequential(
+                nn.Dropout(dropout),
+                nn.Linear(
+                    in_features=input_size,
+                    out_features=hidden_size
+                ),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(
+                    in_features=hidden_size,
+                    out_features=num_polarities
+                )
+            )
+            for _ in torch.arange(num_aspects)
         ])
 
     def forward(self, input: torch.Tensor):
@@ -55,10 +78,6 @@ class PolarityClassifier(nn.Module):
             polarities = polarities.transpose(0, 1)
         return polarities
 
-    def predict(self, input: torch.Tensor):
-        x = self(input)
-        return x.argmax(dim=-1).to(dtype=torch.int8)
-    
 
 class MTL_ViSFDClassifier(nn.Module):
     def __init__(
@@ -66,16 +85,22 @@ class MTL_ViSFDClassifier(nn.Module):
         input_size: int,
         num_aspects: int = 10,
         num_polarities: int = 3,
+        dropout: float =  0.4,
+        hidden_size: int = 64,
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
 
         self.aspect_clf = AspectClassifier(
             input_size=input_size,
-            num_aspects=num_aspects,
+            dropout=dropout,
+            hidden_size=hidden_size,
+            num_aspects=num_aspects
         )
         self.polarity_clf = PolarityClassifier(
             input_size=input_size,
+            dropout=dropout,
+            hidden_size=hidden_size,
             num_aspects=num_aspects,
             num_polarities=num_polarities
         )
@@ -119,7 +144,7 @@ class STL_ViSFDClassifier(nn.Module):
         return result, result_OTHERS
 
 
-class ViSFD_LSTM(nn.Module):
+class ViSFD_LSTM_CNN(nn.Module):
     def __init__(
         self, 
         # vocab_size: int,
@@ -130,6 +155,7 @@ class ViSFD_LSTM(nn.Module):
         embed_dim: int = 768,
         dropout: float = 0.2,
         lstm_hidden_size: int = 128,
+        lstm_num_layers: int = 2,
         cnn_kernel_size: int = 3,
         cnn_out_channels: int = 16,
         pooling_out_size: int = 8,
@@ -148,6 +174,7 @@ class ViSFD_LSTM(nn.Module):
         self.lstm = nn.LSTM(
             input_size=embed_dim,
             hidden_size=lstm_hidden_size,
+            num_layers=lstm_num_layers,
             bidirectional=True,
             dropout=dropout,
             batch_first=True
@@ -176,18 +203,9 @@ class ViSFD_LSTM(nn.Module):
                 input_size=cnn_out_channels*pooling_out_size*2,
                 num_aspects=num_aspects,
                 num_polarities=num_polarities,
+                dropout=output_dropout,
+                hidden_size=output_hidden_size
             )
-    
-    def embed_forward(self, input: str | Sequence[str]):
-        x = [
-            torch.tensor(encoding.ids)
-            for encoding in self.tokenizer.encode_batch(input)
-        ]
-        x = rnn.pack_sequence([
-            self.dropout(self.embedding(_x).transpose(-1, -2)).transpose(-1, -2)
-            for _x in x
-        ], enforce_sorted=False)
-        return x
     
     def forward(self, input: str | Sequence[str]):
         if isinstance(input, str):
@@ -207,7 +225,7 @@ class ViSFD_LSTM(nn.Module):
 
         x = rnn.pack_padded_sequence(x, x_lens, batch_first=True, enforce_sorted=False)
         x, (h, c) = self.lstm(x)
-        x, lstm_out_sizes = rnn.pad_packed_sequence(x, batch_first=True)
+        x, seq_lens = rnn.pad_packed_sequence(x, batch_first=True)
         
         x = self.cnn(x.transpose(-1, -2))
         x_avg = self.avg_pooling(x).flatten(start_dim=-2)
@@ -218,69 +236,3 @@ class ViSFD_LSTM(nn.Module):
         return x
     
 
-class PositionalEncoder(nn.Module):
-    def __init__(
-        self, 
-        embed_dim: int, 
-        n: int = 1e4,
-        max_len: int = 1000
-    ):
-        super().__init__()
-
-        position = torch.arange(max_len).unsqueeze(1).expand(-1, embed_dim)
-        i = torch.arange(0, embed_dim, 2).unsqueeze(0).repeat_interleave(2, dim=-1)
-        div_term = n ** (2*i / embed_dim)
-
-        pe = position / div_term
-        torch.sin_(pe[:, 0::2])
-        torch.cos_(pe[:, 1::2])
-        self.register_buffer('pe', pe)
-
-    def forward(self, x: torch.Tensor):
-        if x.ndim == 3:
-            pe = self.pe[:x.size(1)].unsqueeze(0)
-        x = x + pe
-        return x
-
-
-class AttentionBlock(nn.Module):
-    def __init__(
-        self, 
-        embed_dim: int = int,
-        num_heads: int = 8,
-        kdim: int | None = None,
-        vdim: int | None = None,
-        *args, **kwargs
-    ) -> None:
-        super().__init__(*args, **kwargs)
-
-        self.attention = nn.MultiheadAttention(
-            embed_dim=embed_dim,
-            num_heads=num_heads,
-            kdim=kdim,
-            vdim=vdim,
-            batch_first=True
-        )
-        
-
-class ViSFD_Attention(nn.Module):
-    def __init__(
-        self, 
-        vocab_size: int,
-        num_aspects: int = 10,
-        num_polarities: int = 3,
-        task_type: Literal["stl", "mtl"] = "stl",
-        embed_size: int = 768,
-        *args, **kwargs
-    ) -> None:
-        super().__init__(*args, **kwargs)
-
-        self.embedding = nn.Embedding(
-            num_embeddings=vocab_size,
-            embedding_dim=embed_size,
-            padding_idx=0
-        )
-        self.pos_encoder = PositionalEncoder(
-            embed_dim=embed_size,
-            max_len=500
-        )

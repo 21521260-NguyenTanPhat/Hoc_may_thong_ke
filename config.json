@@ -14,7 +14,7 @@
         "byte_level": false,
 
         "bpe_trainer_kwargs": {
-            "vocab_size": 6000,
+            "vocab_size": 4000,
             "min_frequency": 1,
             "show_progress": true,
             "continuing_subword_prefix": "##"

@@ -1,7 +1,35 @@
 import torch
 from torch import nn
 
-from typing import Tuple, Optional, Literal
+from typing import Tuple, Optional, Literal, Any
+
+
+class MultiLabelFocalLoss(nn.Module):
+    def __init__(
+        self, 
+        alpha: float | torch.FloatTensor = 1,
+        gamma: float = 2,
+        *args, **kwargs
+    ) -> None:
+        super().__init__(*args, **kwargs)
+        self.alpha = alpha
+        self.gamma = gamma
+
+        self.bce = nn.BCEWithLogitsLoss(reduction="none")
+
+    def forward(
+        self,
+        y_hat: torch.Tensor,
+        y: torch.Tensor
+    ):
+        a = self.alpha
+        g = self.gamma
+        bce = self.bce
+        loss = torch.sum(
+            a*(1-y_hat.sigmoid())**g*bce(y_hat, y)
+        )
+        return loss.mean()
+
 
 class STL_ViSFDLoss(nn.Module):
     def __init__(
@@ -37,6 +65,8 @@ class STL_ViSFDLoss(nn.Module):
 class MTL_ViSFDLoss(nn.Module):
     def __init__(
         self, 
+        aspect_alpha: float = 0.25,
+        aspect_gamma: float = 2,
         aspect_weight: float = 1.,
         polarity_weight: float = 1.,
         OTHERS_index: Optional[int] = None,
@@ -47,6 +77,10 @@ class MTL_ViSFDLoss(nn.Module):
         self.w_a = aspect_weight
         self.w_p = polarity_weight
 
+        # self.aspect_fn = MultiLabelFocalLoss(
+        #     alpha=aspect_alpha, 
+        #     gamma=aspect_gamma,
+        # )
         self.aspect_fn = nn.BCEWithLogitsLoss()
         self.polarity_fn = nn.CrossEntropyLoss(reduction="none")
     
@@ -82,15 +116,16 @@ class ViSFDLoss(nn.Module):
     def __init__(
         self, 
         task_type: Literal["stl", "mtl"] = "stl",
+        task_loss_args: dict[str, Any] = {},
         *args, **kwargs
     ) -> None:
         super().__init__(*args, **kwargs)
         self.task_type = task_type
 
         if task_type == "stl":
-            self.loss_fn = STL_ViSFDLoss(*args, **kwargs)
+            self.loss_fn = STL_ViSFDLoss(**task_loss_args)
         elif task_type == "mtl":
-            self.loss_fn = MTL_ViSFDLoss(*args, **kwargs)
+            self.loss_fn = MTL_ViSFDLoss(**task_loss_args)
     
     def forward(
         self, 

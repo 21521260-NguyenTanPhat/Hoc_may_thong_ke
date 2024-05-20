@@ -51,23 +51,12 @@ def mtl_aspect_f1(
     return torch.tensor(scores).mean()
 
 
-def stl_polarity_f1(
-    y_hat: Tuple[torch.Tensor, torch.Tensor],
-    y: Tuple[torch.Tensor, torch.Tensor],
-):
-    a_hat, o_hat = y_hat
-    a, o = y
-
-
-
-
-class AspectF1Score(nn.Module):
+class AspectF1Score:
     def __init__(
         self,
         task_type: Literal["stl", "mtl"] = "stl",
         *args, **kwargs
     ) -> None:
-        super().__init__()
         self.task_type = task_type
         self.args = args
         self.kwargs = kwargs
@@ -77,7 +66,75 @@ class AspectF1Score(nn.Module):
         elif task_type == "mtl":
             self.eval_fn = mtl_aspect_f1
     
-    def forward(
+    def __call__(
+        self,
+        y_hat: Tuple[torch.Tensor, torch.Tensor],
+        y: Tuple[torch.Tensor, torch.Tensor],
+    ):
+        with torch.no_grad():
+            return self.eval_fn(y_hat, y, *self.args, **self.kwargs)
+        
+
+def stl_polarity_f1(
+    y_hat: Tuple[torch.Tensor, torch.Tensor],
+    y: Tuple[torch.Tensor, torch.Tensor],
+    average: str = "macro"
+):
+    a_hat, o_hat = y_hat
+    a, o = y
+
+    scores = []
+    for i_a in range(10):
+        input = a_hat.select(-2, i_a).argmax(-1)
+        target = a[..., i_a].flatten()
+        
+    return torch.tensor(scores).mean()
+
+
+def mtl_polarity_f1(
+    y_hat: Tuple[torch.Tensor, torch.Tensor],
+    y: Tuple[torch.Tensor, torch.Tensor],
+    aspect_threshold: float = 0.5,
+    average: str = "macro"
+):
+    a_hat, p_hat = y_hat
+    a, p = y
+
+    a_hat = (a_hat.sigmoid() >= aspect_threshold).int()
+    p_hat = p_hat.argmax(-1)
+
+    scores = []
+    for i in range(10):
+        taken = a[..., i] == 1
+        input = torch.where(
+            a_hat[..., i][taken] == 1, 
+            p_hat[..., i][taken], 3
+        ).flatten()
+        target = p[..., i][taken].flatten()
+
+        if input.numel() == 0:
+            continue
+
+        score = F.multiclass_f1_score(input, target, num_classes=4, average=average)
+        scores.append(score)
+    
+    return torch.tensor(scores).mean()
+
+
+class PolarityF1Score:
+    def __init__(
+        self,
+        task_type: Literal["stl", "mtl"] = "stl",
+        *args, **kwargs
+    ) -> None:
+        self.task_type = task_type
+        self.args = args
+        self.kwargs = kwargs
+
+        if task_type == "mtl":
+            self.eval_fn = mtl_polarity_f1
+
+    def __call__(
         self,
         y_hat: Tuple[torch.Tensor, torch.Tensor],
         y: Tuple[torch.Tensor, torch.Tensor],
