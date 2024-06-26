@@ -1,6 +1,6 @@
 # Aspect-based Sentiment Analysis for Smartphone Feedbacks
 
-The procedures to use the pretrained model is as follow
+Reimplementation, plus trying new architecture according to [this paper](https://link.springer.com/chapter/10.1007/978-3-030-82147-0_53?fbclid=IwAR00G3h4feqS5m_hu8lMbwLw22bXqOjBLrpBzs25eszMN9d7UPjjaCTEcpw). The procedures to use the pretrained model is as the following
 
 ```python
 from transformers import AutoTokenizer, AutoModel
