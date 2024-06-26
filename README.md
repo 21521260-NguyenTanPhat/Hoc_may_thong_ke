@@ -20,3 +20,8 @@ tokens = tokenizer(feedbacks, padding=True, return_tensors="pt")
 # Feed into model
 model(**tokens)
 ```
+
+```sh
+[{'PRICE': 'Positive', 'GENERAL': 'Positive'},
+ {'BATTERY': 'Positive', 'PERFORMANCE': 'Negative', 'SCREEN': 'Negative'}]
+```
